@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  store-database:
+    image: postgres:13
+    restart: always
+    ports:
+      - "5434:5434"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      PGPORT: 5434
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    depends_on:
+      - store-database
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: password123
