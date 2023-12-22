@@ -1,15 +1,18 @@
+import { isAuthenticated } from "../src/app/auth/store/auth.selectors";
 import React, { FC, Suspense } from "react";
 import { Navigate, Routes, Route } from "react-router-dom";
+import { useAppSelector } from "store";
+
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
-    const isAuthenticated = true;
-    return isAuthenticated ? (
+    const isAuth: boolean = useAppSelector(isAuthenticated)
+    return isAuth ? (
         <Suspense fallback={<div />}>
             <div><Element /></div>
         </Suspense>
     ) : (
-        <Navigate to={""} />
+        <Navigate to={"/auth/login"} />
     );
 };
 
@@ -22,7 +25,8 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 // ======= pages ======= //
 const AuthRoutes = React.lazy(() => import("./app/auth/auth.routes"));
-const StorePage = React.lazy(() => import("./app/store/store-main-page"));
+// const ProductsPage = React.lazy(() => import("./app/products/products-main-page"));
+const StoreRoutes = React.lazy(() => import("./app/products/store.routes"));
 
 const AppRoutes = () => {
     return (
@@ -31,10 +35,11 @@ const AppRoutes = () => {
             <Route path={"/auth/*"} element={<PublicRoute element={AuthRoutes} />} />
 
             {/* PRIVATE */}
-            <Route path={"/store/*"} element={<PrivateRoute element={StorePage} />} />
+            {/* <Route path={"/store/*"} element={<PrivateRoute element={ProductsPage} />} /> */}
+            <Route path={"/store/*"} element={<PrivateRoute element={StoreRoutes} />} />
 
             {/* DEFAULT */}
-            <Route path='*' element={<Navigate to="/auth" />} />
+            <Route path='*' element={<Navigate to="/auth/login" />} />
         </Routes>
     );
 };

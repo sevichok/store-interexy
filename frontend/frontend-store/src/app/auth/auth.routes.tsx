@@ -16,13 +16,13 @@ const AuthRoutes = () => {
     return (
         <Routes>
             {/* PUBLIC */}
-            <Route path={"/login"} element={<PublicRoute element={LoginPage} />} />
+            <Route path="/login" element={<PublicRoute element={LoginPage} />} />
 
             {/* PUBLIC */}
-            <Route path={"/register"} element={<PublicRoute element={RegisterPage} />} />
+            <Route path="/register" element={<PublicRoute element={RegisterPage} />} />
 
             {/* DEFAULT */}
-            <Route path="*" element={<Navigate to="login" />} />
+            <Route path="*" element={<Navigate to="/auth/login" />} />
         </Routes>
     );
 };
